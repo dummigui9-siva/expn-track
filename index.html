@@ -15,8 +15,8 @@
   --card:#8fb8b6;
   --text:#0f2a2a;
   --nav:#8fb8b6;
-  --icon:#002f2f;
-  --icon-active:#001818;
+  --icon:#000000;
+  --icon-active:#000000;
   --header:#a9cfcd;
   --shadow-soft:0 14px 30px rgba(0,0,0,.28);
   --shadow-emboss:inset 3px 3px 6px rgba(0,0,0,.18), inset -3px -3px 6px rgba(255,255,255,.45);
@@ -30,8 +30,8 @@ body.dark{
   --card:#262628;
   --text:#f5f5f5;
   --nav:#262628;
-  --icon:#00dede;
-  --icon-active:#00ffff;
+  --icon:#000000;
+  --icon-active:#000000;
   --header:#2f2f31;
   --shadow-soft:0 18px 40px rgba(0,0,0,.7);
   --shadow-emboss:inset 3px 3px 8px rgba(0,0,0,.7), inset -3px -3px 8px rgba(255,255,255,.08);
@@ -112,9 +112,53 @@ button:hover{transform:translateY(-2px)}
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
+  overflow-y: auto;          /* ✅ vertical scroll */
+  max-height: 260px;         /* ✅ FIXED CARD HEIGHT */
   margin-top: 12px;
   -webkit-overflow-scrolling: touch;
+
+  scroll-behavior: smooth;   /* ✅ smooth programmatic scroll */
+  overscroll-behavior: contain; /* ✅ prevents page bounce */
+ 
 }
+
+/* ================= SCROLL SHADOW INDICATORS ================= */
+
+.table-wrapper {
+  position: relative;
+}
+
+/* Top shadow */
+.table-wrapper::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  height: 12px;
+  display: block;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0)
+  );
+  z-index: 4;
+}
+
+/* Bottom shadow */
+.table-wrapper::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  height: 12px;
+  display: block;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0)
+  );
+  z-index: 4;
+}
+
+
 
 .table-wrapper table {
   width: 100%;
@@ -200,7 +244,7 @@ button:hover{transform:translateY(-2px)}
       <input id="loginName" placeholder="Your name">
       <p id="loginError" style="color:red; opacity:0.8; margin-top:10px;"></p>
       <button onclick="login()">Proceed</button>
-      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved | Expense Tracker RC- V1.0, Dt: 31-12-2025</div>        
+      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.1 Dt:01/01/2026 </div>
     </div>
   </div>
 </div>
@@ -210,7 +254,7 @@ button:hover{transform:translateY(-2px)}
 
   <!-- HOME -->
   <div id="home" class="screen active"></div>
-   
+
   <!-- ADD -->
   <div id="add" class="screen">
     <div class="card">
@@ -269,7 +313,8 @@ button:hover{transform:translateY(-2px)}
       <div class="total-caption">Total Expenses</div>
       <div class="total-box" id="total">₹0</div>
       <div class="table-wrapper">
-        <table>
+        <table style="min-width:480px">
+
           <thead>
             <tr>
               <th>Date</th>
@@ -396,9 +441,13 @@ function logout(){
 function initApp(){
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("mainApp").classList.remove("hidden");
+
+  username.value = currentUser;   // ✅ AUTO-FILL USER NAME
+
   renderHome();
   applyFilters();
 }
+
 
 if(sessionStorage.getItem("loggedIn")==="yes" && sessionStorage.getItem("currentUser")){
   currentUser=sessionStorage.getItem("currentUser");
@@ -477,6 +526,15 @@ function applyFilters(){
   renderHome();
 }
 
+  /* ===== AUTO-SCROLL TO LATEST ENTRY ===== */
+  const wrapper = document.querySelector(".screen.active .table-wrapper");
+  if(wrapper){
+    wrapper.scrollTop = wrapper.scrollHeight;
+  }
+
+
+
+
 /* ================= EDIT & DELETE ================= */
 function editExpense(id){
   let e = expenses.find(x=>x.id===id);
@@ -517,10 +575,12 @@ function switchScreen(id, el){
 function renderHome(){
   const home = document.getElementById("home");
   const displayName = username.value || currentUser || 'User';
-  const recent = expenses.slice(-5).reverse();
+  const recent = [...expenses];
+
   let recentHTML = recent.length ? `
     <div class="table-wrapper">
-      <table>
+      <table style="min-width:480px">
+
         <thead>
           <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th></tr>
         </thead>
@@ -544,7 +604,7 @@ function renderHome(){
       ${recentHTML}
       <div class="total-caption">Recent Total</div>
       <div class="total-box">${currency.value}${totalRecent}</div>
-      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved | Expense Tracker RC- V1.0, Dt: 31-12-2025</div>
+      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.1 Dt:01/01/2026</div>
     </div>`;
 }
 
