@@ -216,7 +216,7 @@ button:hover{transform:translateY(-2px)}
   left:50%;
   transform:translateX(-50%);
   width:92%;
-  max-width:380px;
+  max-width:420px;
   height:74px;
   background:var(--nav);
   border-radius:999px;
@@ -347,6 +347,44 @@ button:hover{transform:translateY(-2px)}
     </div>
   </div>
 
+  <!-- INSTRUCTIONS TAB -->
+  <div id="instructions" class="screen">
+    <div class="card">
+      <h3>Expense Tracker - User Guide</h3>
+      <p>This simple application helps you monitor your daily expenses. Follow the tabs below to understand its features:</p>
+      
+      <div style="margin-top:16px;">
+        <strong>1. Home Tab:</strong>
+        <p>Welcome screen displaying your name and a summary of all expenses. The recent expenses table shows the latest entries and total spent.</p>
+      </div>
+
+      <div style="margin-top:16px;">
+        <strong>2. Add Tab:</strong>
+        <p>Use this tab to add new expenses. Fill your name, amount, category, description, and date. Click <b>Add Expense</b> to save.</p>
+        <p>Updating an expense is done via the <b>Expense tab</b> (3rd tab) using the Edit button.</p>
+      </div>
+
+      <div style="margin-top:16px;">
+        <strong>3. Expense Tab:</strong>
+        <p>Displays all expenses in a table. You can <b>Edit</b> or <b>Delete</b> entries. Editing redirects you to the Add tab.</p>
+      </div>
+
+      <div style="margin-top:16px;">
+        <strong>4. User Tab:</strong>
+        <p>This tab contains:</p>
+        <ul>
+          <li><b>Insights:</b> Overview of total spending.</li>
+          <li><b>Budget:</b> Average spending per entry.</li>
+          <li><b>Categories:</b> Spending grouped by category.</li>
+          <li><b>Preferences:</b> Most preferred category based on total spending and frequency.</li>
+          <li>Options to <b>Export CSV</b>, <b>Toggle Dark Mode</b>, and <b>Logout</b>.</li>
+        </ul>
+      </div>
+
+      <p style="margin-top:16px;">💡 Tip: Start by entering your name in the Home tab, then add expenses, view summaries, and explore statistics in the User tab.</p>
+    </div>
+  </div>
+
 </div>
 
 <!-- NAV -->
@@ -370,6 +408,12 @@ button:hover{transform:translateY(-2px)}
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
       <circle cx="12" cy="8" r="4"/>
       <path d="M4 20c2-4 14-4 16 0"/>
+    </svg>
+  </div>
+  <div class="nav-item" onclick="switchScreen('instructions',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 8v4M12 16h0"/>
     </svg>
   </div>
 </div>
@@ -521,19 +565,16 @@ function applyFilters(){
           <button class="action-btn edit-btn" onclick="editExpense(${e.id})">Edit</button>
           <button class="action-btn delete-btn" onclick="deleteExpense(${e.id})">Del</button>
         </td>
-      </tr>`;
+      </tr>`; 
   });
   renderHome();
 }
 
-  /* ===== AUTO-SCROLL TO LATEST ENTRY ===== */
-  const wrapper = document.querySelector(".screen.active .table-wrapper");
-  if(wrapper){
-    wrapper.scrollTop = wrapper.scrollHeight;
-  }
-
-
-
+/* ===== AUTO-SCROLL TO LATEST ENTRY ===== */
+const wrapper = document.querySelector(".screen.active .table-wrapper");
+if(wrapper){
+  wrapper.scrollTop = wrapper.scrollHeight;
+}
 
 /* ================= EDIT & DELETE ================= */
 function editExpense(id){
