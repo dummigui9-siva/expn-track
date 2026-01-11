@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-.hidden { display: none; }
+.hidden { display: none !important; }
+
 
 /* ================= THEME ================= */
 :root{
@@ -49,14 +50,22 @@ body{
   transition:.35s;
 }
 
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-  padding-bottom:160px;
+.app {
+  max-width: 420px;
+  margin: auto;
+  min-height: 100vh;
+  padding-bottom: 120px; /* enough space so nav bar doesn't cover content */
 }
 
-.screen{display:none;padding:18px}
+/* Screen handles scrolling */
+.screen {
+  display: none;
+  padding: 18px;
+  max-height: calc(100vh - 20px); /* full viewport minus small top/bottom */
+  overflow-y: auto;               /* scroll if content exceeds screen */
+  scroll-behavior: smooth;        /* smooth scrolling */
+}
+
 .screen.active{display:block}
 
 /* ================= CARD ================= */
@@ -67,6 +76,14 @@ body{
   margin-bottom:18px;
   box-shadow:var(--shadow-soft);
 }
+
+/* Remove extra vertical scroll from cards inside screen */
+.screen.active .card {
+  max-height: none;         /* remove fixed height */
+  overflow-y: visible;      /* let content flow naturally */
+  padding-bottom: 12px;
+}
+
 
 /* ================= HOME ================= */
 .home-title{text-align:center;font-size:28px;font-weight:800}
@@ -108,18 +125,16 @@ button:hover{transform:translateY(-2px)}
 .total-caption{text-align:center;font-size:14px;opacity:.8}
 .total-box{text-align:center;font-size:22px;font-weight:700;margin-bottom:14px}
 
-/* Table wrapper for scroll on small screens */
+/* Table wrapper only scrolls horizontally if needed */
 .table-wrapper {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: auto;          /* ✅ vertical scroll */
-  max-height: 260px;         /* ✅ FIXED CARD HEIGHT */
+  overflow-x: auto;         /* horizontal scroll if table is wide */
+  overflow-y: visible;      /* remove inner vertical scroll */
+  max-height: none;          /* remove fixed height */
   margin-top: 12px;
   -webkit-overflow-scrolling: touch;
-
-  scroll-behavior: smooth;   /* ✅ smooth programmatic scroll */
-  overscroll-behavior: contain; /* ✅ prevents page bounce */
- 
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
 }
 
 /* ================= SCROLL SHADOW INDICATORS ================= */
@@ -209,28 +224,165 @@ button:hover{transform:translateY(-2px)}
 .stat:hover{transform:translateY(-2px)}
 .user-output{margin-top:16px;padding:14px;border-radius:18px;background:rgba(0,0,0,.12);font-size:14px}
 
-/* ================= NAV BAR ================= */
+/* ================= NAV BAR (NAVY + DARK BROWN HALO) ================= */
 .bottom-nav{
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:92%;
-  max-width:420px;
-  height:74px;
-  background:var(--nav);
-  border-radius:999px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  box-shadow:0 28px 60px rgba(0,0,0,.6);
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 420px;
+  height: 56px;
+  background: #0b2545; /* navy blue background */
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 999px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  z-index: 999;
+  overflow: hidden;
 }
-.nav-item{width:48px;height:48px;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .5s cubic-bezier(.22,.61,.36,1)}
-.nav-item svg{width:18px;height:18px;stroke:var(--icon);stroke-width:2.2;transition:.35s}
-.nav-item::before{content:"";position:absolute;width:52px;height:52px;border-radius:50%;background:#7aa9a7;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);transition:.5s;z-index:-1}
-.nav-item.active{transform:translateY(-22px)}
-.nav-item.active::before{transform:translate(-50%,-50%) scale(1)}
-.nav-item.active svg{stroke:var(--icon-active);transform:scale(1.15)}
+
+/* Floating pill behind active icon */
+.floating-pill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 56px;
+  height: 56px;
+  background: #654321; /* dark brown halo behind icon */
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition: left 0.35s cubic-bezier(.22,.61,.36,1);
+  z-index: 1;
+}
+
+/* ================= NAV BAR (NAVY + WHITE ICONS, NO HALO) ================= */
+
+
+/* ================= NAV BAR (NAVY + WHITE ICONS, ACTIVE POP-UP) ================= */
+
+
+/* ================= NAV BAR (NAVY + WHITE ICONS, ACTIVE NAV POP-UP) ================= */
+
+
+/* ================= NAV BAR (NAVY + WHITE ICONS, ACTIVE POP-UP) ================= */
+
+
+/* ================= NAV BAR (NAVY + INTERACTIVE ICONS) ================= */
+.bottom-nav{
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 420px;
+  height: 56px;
+  background: #0b2545; /* navy blue background */
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 999px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  z-index: 999;
+  overflow: hidden;
+}
+
+/* ================= NAV ITEMS ================= */
+.nav-item{
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 999px;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.nav-item svg{
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff; /* default icon color */
+  stroke-width: 2.2;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), stroke 0.25s;
+}
+
+/* Active nav item pop-up + icon color change */
+.nav-item.active{
+  transform: translateY(-8px); /* pop entire item */
+}
+
+/* Active nav item pop-up + icon color + spin */
+.nav-item.active svg {
+  transform: scale(1.2);        /* pop the icon slightly */
+  stroke: #ffcc00;              /* gold icon color when active */
+  animation: spin 0.7s ease-out; /* spin once */
+}
+
+/*
+@keyframes popBounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  70% { transform: translateY(-6px); }
+  100% { transform: translateY(-8px); }
+}
+*/
+
+/* Pop + bounce animation for nav item */
+@keyframes popBounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  70% { transform: translateY(-6px); }
+  100% { transform: translateY(-8px); }
+}
+
+
+/* Remove floating-pill entirely */
+.floating-pill{
+  display: none !important;
+}
+
+
+/* Spin animation for navbar icon */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== PASSWORD TOGGLE ===== */
+.password-box{
+  position: relative;
+  margin-top: 12px;
+}
+
+.password-box input{
+  width: 100%;
+  padding-right: 46px;
+}
+
+.toggle-eye{
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) scale(1);
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0.7;
+}
+
+.toggle-eye:active{
+  transform: translateY(-50%) scale(1.2);
+  opacity: 1;
+}
+
+
 </style>
 </head>
 <body>
@@ -238,16 +390,110 @@ button:hover{transform:translateY(-2px)}
 <!-- LOGIN SCREEN -->
 <div id="loginScreen" class="app">
   <div class="screen active">
-    <div class="card" style="margin-top:40%;text-align:center">
+    <div class="card" style="margin-top:40%; text-align:center">
+
+      <!-- ================= PRE-LOGIN HELPER NOTE ================= -->
+<div style="
+  text-align:center;
+  font-size:11px;
+  opacity:0.6;
+  margin-bottom:6px;
+">
+  Note: This app works locally in your browser. A short explanation is shown below.
+</div>
+
+
+      <!-- ================= LOGIN DISCLAIMER ================= -->
+<div style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; 
+            padding:12px; border-radius:12px; margin-bottom:12px; font-size:12px;">
+  ⚠️ <strong>Important:</strong><br>
+Your data is stored securely per user in this browser only.<br>
+If you switch browsers or devices, your data will not appear automatically.<br><br>
+
+To continue seamlessly across environments:<br>
+• Use <b>Export CSV</b> for records or manual re-entry<br>
+• Use <b>Backup Full Profile</b> to fully restore login and data when switching between browsers<br>
+&nbsp;&nbsp;(For best results, create and restore backups on a laptop or desktop computer, as smartphone browsers may have storage and file access limitations)<br><br>
+
+
+This is a current design choice to keep the app lightweight and private.
+Please review entries carefully and use backups when switching.
+
+
+</div>
+
+
       <h2>Expense Tracker</h2>
-      <p style="opacity:.7">Enter your name to continue</p>
-      <input id="loginName" placeholder="Your name">
+      <p style="opacity:.7">Login to continue</p>
+
+      <input id="loginName" placeholder="Username" style="margin-top:12px;">
+
+      <div class="password-box">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <span class="toggle-eye" onclick="togglePassword()">👁️</span>
+      </div>
+
       <p id="loginError" style="color:red; opacity:0.8; margin-top:10px;"></p>
-      <button onclick="login()">Proceed</button>
-      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.1 Dt:01/01/2026 </div>
+
+      <button onclick="login()">Login</button>
+
+      <button onclick="document.getElementById('preLoginRestore').click()" style="margin-top:10px;">
+  Restore Full Profile (JSON)
+</button>
+
+<input
+  type="file"
+  id="preLoginRestore"
+  accept=".json"
+  style="display:none"
+  onchange="handlePreLoginRestore(event)"
+>
+
+
+      <p style="margin-top:16px;">
+        <a href="#" onclick="showRegister()">New User? Register</a><br>
+        <a href="#" onclick="showForgot()">Forgot Password?</a><br>
+        <p style="margin-top:16px;">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved
+RC V1.5 Dt:10/01/2026</p>
+      </p>
     </div>
   </div>
 </div>
+
+
+<!-- REGISTER SCREEN -->
+<div id="registerScreen" class="app hidden">
+  <div class="screen active">
+    <div class="card" style="margin-top:35%; text-align:center">
+      <h2>Register</h2>
+
+      <input id="regName" placeholder="Username">
+      <input id="regEmail" type="email" placeholder="Email">
+      <input id="regPassword" type="password" placeholder="Password">
+
+      <p id="regError" style="color:red;margin-top:8px;"></p>
+
+      <button onclick="registerUser()">Register</button>
+      <button onclick="backToLogin()" style="margin-top:10px;">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD SCREEN -->
+<div id="forgotScreen" class="app hidden">
+  <div class="screen active">
+    <div class="card" style="margin-top:35%; text-align:center">
+      <h2>Recover Password</h2>
+
+      <input id="forgotEmail" type="email" placeholder="Registered Email">
+      <p id="forgotMessage" style="margin-top:8px;"></p>
+
+      <button onclick="forgotPasswordUI()">Recover</button>
+      <button onclick="backToLogin()" style="margin-top:10px;">Back</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- MAIN APP -->
 <div id="mainApp" class="app hidden">
@@ -258,6 +504,7 @@ button:hover{transform:translateY(-2px)}
   <!-- ADD -->
   <div id="add" class="screen">
     <div class="card">
+
       <label>User Name</label>
       <input id="username">
       <label>Currency</label>
@@ -269,15 +516,18 @@ button:hover{transform:translateY(-2px)}
       <label>Amount</label>
       <input type="number" id="amount">
       <label>Category</label>    
-      <select id="category" onchange="showCategoryDescription()">
-        <option value="">Select</option>
-        <option>Food</option>
-        <option>Travel</option>
-        <option>Shopping</option>
-        <option>Fuel</option>
-        <option>FASTag</option>
-        <option>Miscellaneous</option>
-      </select>
+<select id="category" onchange="showCategoryDescription()">
+  <option value="">Select</option>
+  <option>Food</option>
+  <option>Travel</option>
+  <option>Shopping</option>
+  <option>Fuel</option>
+  <option>FASTag</option>
+  <option>Miscellaneous</option>
+</select>
+
+<!-- NEW: Free text category -->
+<input id="customCategory" placeholder="Enter custom category (optional)">
 
       <div id="categoryDescription" style="
         margin-top:8px;
@@ -285,11 +535,14 @@ button:hover{transform:translateY(-2px)}
         opacity:0.8;
         padding-left:6px;
       "></div>
+<label>Description Type</label>
+<select id="descriptionType">
+  <option value="">Select description</option>
+</select>
 
-      <label>Description Type</label>
-      <select id="descriptionType">
-        <option value="">Select description</option>
-      </select>
+<!-- NEW: Free text description -->
+<input id="customDescription" placeholder="Enter custom description (optional)">
+
 
       <label>Date</label>
       <input type="date" id="date">
@@ -343,34 +596,107 @@ button:hover{transform:translateY(-2px)}
       <div class="user-output" id="userOutput">Click any tile above to view details.</div>
       <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
       <button onclick="exportCSV()">Export CSV</button>
+
+      <!-- ================= BACKUP CLARIFICATION NOTE ================= -->
+<div style="
+  margin-top:12px;
+  padding:12px;
+  font-size:12px;
+  background:#e8f4ff;
+  border:1px solid #cce5ff;
+  border-radius:12px;
+  color:#084298;
+">
+  <strong>Backup Options Explained:</strong><br>
+  • <b>Backup Data</b> → Saves only Expenses + Currency (no login details).<br>
+  • <b>Backup Full Profile</b> → Saves Login Credentials + Expenses + Currency (for full recovery or new device).<br>
+  • <b>Restore Data</b> → Restores Expenses + Currency into the current login.
+</div>
+
+
+      <button onclick="backupData()">Backup Data (Expenses + Currency)</button>
+      <button onclick="backupFullProfile()">Backup Full Profile (Login + Data)</button>
+
+
+      <button onclick="document.getElementById('restoreFileInput').click()">Restore Data (Expenses + Currency)</button>
+
+
+      <input 
+      type="file" 
+      id="restoreFileInput" 
+      accept=".json"
+      style="display:none"
+  onchange="handleRestoreFile(event)"
+>
+
+
       <button onclick="logout()">Logout</button>
     </div>
   </div>
 
   <!-- INSTRUCTIONS TAB -->
   <div id="instructions" class="screen">
+    <!-- ================= GLOBAL DISCLAIMER ================= -->
+<div style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; 
+            padding:14px; border-radius:14px; margin-bottom:16px; font-size:13px;">
+  ⚠️ <strong>Important Note for All Users:</strong><br>
+  Your data is stored per user in the current browser/device only.<br>
+Switching browsers or devices will start with a fresh view by design.<br><br>
+
+To prevent data loss when changing environments:<br>
+• <b>Export CSV</b> for safe records or re-entry<br>
+• <b>Backup Full Profile</b> for complete login + data restoration<br><br>
+
+• Use <b>Export CSV</b> for records or manual re-entry<br>
+• Use <b>Backup Full Profile</b> to fully restore login and data when switching between browsers<br>
+&nbsp;&nbsp;(For best results, create and restore backups on a laptop or desktop computer, as smartphone browsers may have storage and file access limitations)<br><br>
+
+
+This approach keeps the application fast, private, and offline-friendly.
+Please verify entries carefully and use backups when needed.
+
+</div>
+
     <div class="card">
       <h3>Expense Tracker - User Guide</h3>
       <p>This simple application helps you monitor your daily expenses. Follow the tabs below to understand its features:</p>
       
+      <!-- AUTHENTICATION INSTRUCTIONS -->
+<div style="margin-top:16px;">
+  <h4>🔐 Part 1: Login & Access</h4>
+
+  <p>👤 <strong>Existing User – Login</strong></p>
+  <p>Enter your registered <b>Username</b> and <b>Password</b> on the Login screen, then click <b>Login</b> to access the application.</p>
+
+  <p>🆕 <strong>New User – Registration</strong></p>
+  <p>Click <b>New User? Register</b> on the Login screen. Enter a unique <b>Username</b>, a valid <b>Email ID</b>, and a <b>Password</b>. After successful registration, return to the Login screen and log in.</p>
+
+  <p>🔑 <strong>Forgot Username / Password</strong></p>
+  <p>Click <b>Forgot Password?</b> on the Login screen. Enter your registered <b>Email ID</b> to retrieve your Username and Password.</p>
+
+  <hr style="margin:18px 0; opacity:0.4;">
+</div>
+
+
+      
       <div style="margin-top:16px;">
-        <strong>1. Home Tab:</strong>
+        <strong>1. 🏠 Home Tab:</strong>
         <p>Welcome screen displaying your name and a summary of all expenses. The recent expenses table shows the latest entries and total spent.</p>
       </div>
 
       <div style="margin-top:16px;">
-        <strong>2. Add Tab:</strong>
+        <strong>2. ➕ Add Tab:</strong>
         <p>Use this tab to add new expenses. Fill your name, amount, category, description, and date. Click <b>Add Expense</b> to save.</p>
         <p>Updating an expense is done via the <b>Expense tab</b> (3rd tab) using the Edit button.</p>
       </div>
 
       <div style="margin-top:16px;">
-        <strong>3. Expense Tab:</strong>
+        <strong>3. 💸 Expense Tab:</strong>
         <p>Displays all expenses in a table. You can <b>Edit</b> or <b>Delete</b> entries. Editing redirects you to the Add tab.</p>
       </div>
 
       <div style="margin-top:16px;">
-        <strong>4. User Tab:</strong>
+        <strong>4. 👤 User Tab:</strong>
         <p>This tab contains:</p>
         <ul>
           <li><b>Insights:</b> Overview of total spending.</li>
@@ -381,14 +707,18 @@ button:hover{transform:translateY(-2px)}
         </ul>
       </div>
 
-      <p style="margin-top:16px;">💡 Tip: Start by entering your name in the Home tab, then add expenses, view summaries, and explore statistics in the User tab.<br><br>© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved RC V1.1 Dt:01/01/2026</p>
+      <p style="margin-top:16px;">💡 Tip: Start by entering your name in the Home tab, then add expenses, view summaries, and explore statistics in the User tab.<br><br>© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved
+RC V1.5 Dt:10/01/2026</p>
     </div>
   </div>
 
 </div>
 
 <!-- NAV -->
-<div class="bottom-nav">
+<div class="bottom-nav hidden">
+<div class="floating-pill"></div>
+
+
   <div class="nav-item active" onclick="switchScreen('home',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
       <path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>
@@ -419,6 +749,7 @@ button:hover{transform:translateY(-2px)}
 </div>
 
 <script>
+
 /* ================= JS ================= */
 const currency = document.getElementById("currency");
 const username = document.getElementById("username");
@@ -433,6 +764,10 @@ const userOutput = document.getElementById("userOutput");
 const categoryFilter = document.getElementById("categoryFilter");
 const navItems = document.querySelectorAll(".nav-item");
 const loginName = document.getElementById("loginName");
+
+
+const loginPassword = document.getElementById("loginPassword");
+
 
 const categoryDescriptionOptions = {
   Food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Groceries"],
@@ -454,43 +789,113 @@ const categoryDescriptions = {
 
 let expenses = [];
 let currentUser = sessionStorage.getItem("currentUser") || null;
+let users = JSON.parse(localStorage.getItem("users")) || {};
 let editId = null;
+let editCategoryIsCustom = false;
+let editDescriptionIsCustom = false;
+
 
 currency.value = currentUser ? (localStorage.getItem(`currency_${currentUser}`) || "₹") : "₹";
 username.value = "";
 profileName.innerText = "User";
 
+function togglePassword(){
+  const pwd = document.getElementById("loginPassword");
+  pwd.type = pwd.type === "password" ? "text" : "password";
+}
+
+
+function showRegister(){
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("registerScreen").classList.remove("hidden");
+}
+
+
+function showForgot(){
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("forgotScreen").classList.remove("hidden");
+}
+
+function backToLogin(){
+  document.getElementById("registerScreen").classList.add("hidden");
+  document.getElementById("forgotScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+}
+
+
 /* ================= LOGIN ================= */
 function login(){
   const name = loginName.value.trim();
+  const password = loginPassword.value;
   const loginError = document.getElementById("loginError");
-  if(!name){ loginError.innerText="Please enter your name to continue"; return; }
+
   loginError.innerText = "";
+
+  if(!name || !password){
+    loginError.innerText = "Please enter username and password";
+    return;
+  }
+
+  // find user by username
+  let foundUser = null;
+
+  for (let email in users) {
+    if (users[email].username === name) {
+      foundUser = users[email];
+      break;
+    }
+  }
+
+  if (!foundUser) {
+    loginError.innerText = "User not found. Please register.";
+    return;
+  }
+
+  if (foundUser.password !== password) {
+    loginError.innerText = "Incorrect password";
+    return;
+  }
+
+  // ✅ SUCCESS
   currentUser = name;
-  currency.value = localStorage.getItem(`currency_${currentUser}`) || "₹";
-  const saved = localStorage.getItem(`expenses_${currentUser}`);
-  expenses = saved ? JSON.parse(saved) : [];
-  username.value = currentUser;
-  profileName.innerText = currentUser;
   sessionStorage.setItem("loggedIn","yes");
   sessionStorage.setItem("currentUser",currentUser);
+
   initApp();
 }
 
+
+// ---------- AUTH LOGIC END ----------
+
+
 function logout(){
   sessionStorage.removeItem("loggedIn");
+  sessionStorage.removeItem("currentUser");
   location.reload();
 }
+
 
 function initApp(){
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("mainApp").classList.remove("hidden");
 
-  username.value = currentUser;   // ✅ AUTO-FILL USER NAME
+  // ✅ SHOW NAV BAR AFTER LOGIN
+  document.querySelector(".bottom-nav").classList.remove("hidden");
+
+  // ✅ LOAD USER DATA PROPERLY
+  const savedExpenses = localStorage.getItem(`expenses_${currentUser}`);
+  expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
+
+  currency.value = localStorage.getItem(`currency_${currentUser}`) || "₹";
+
+  username.value = currentUser;
+  profileName.innerText = currentUser;
 
   renderHome();
   applyFilters();
 }
+
+
 
 
 if(sessionStorage.getItem("loggedIn")==="yes" && sessionStorage.getItem("currentUser")){
@@ -504,23 +909,53 @@ if(sessionStorage.getItem("loggedIn")==="yes" && sessionStorage.getItem("current
 
 /* ================= EXPENSE FUNCTIONS ================= */
 function addExpense(){
-  if(!amount.value || !category.value || !date.value) return;
-  const descValue = document.getElementById("descriptionType").value;
+  const wasEditing = !!editId;
+
+  const selectedCategory = category.value;
+  const categoryNote = document.getElementById("customCategory").value.trim();
+
+  const selectedDescription = document.getElementById("descriptionType").value;
+  const descriptionNote = document.getElementById("customDescription").value.trim();
+
+  if(!amount.value || !selectedCategory || !date.value) return;
+
+  const expenseObj = {
+    id: editId || Date.now(),
+    amount: amount.value,
+    category: selectedCategory,
+    categoryNote: categoryNote,
+    descriptionType: selectedDescription,
+    descriptionNote: descriptionNote,
+    date: date.value
+  };
+
   if(editId){
-    expenses = expenses.map(e => e.id===editId ? {...e, amount: amount.value, category: category.value, date: date.value, descriptionType: descValue} : e);
+    expenses = expenses.map(e => e.id === editId ? expenseObj : e);
     editId = null;
     addBtn.innerText = "Add Expense";
   } else {
-    expenses.push({id: Date.now(), amount: amount.value, category: category.value, descriptionType: descValue, date: date.value});
+    expenses.push(expenseObj);
   }
+
   localStorage.setItem(`expenses_${currentUser}`, JSON.stringify(expenses));
-  amount.value = date.value = "";
-  category.selectedIndex = 0;
-  document.getElementById("categoryDescription").innerText = "";
-  document.getElementById("descriptionType").innerHTML = '<option value="">Select description</option>';
+
+  if (!wasEditing) {
+    amount.value = "";
+    date.value = "";
+    category.selectedIndex = 0;
+    document.getElementById("customCategory").value = "";
+    document.getElementById("descriptionType").innerHTML =
+      '<option value="">Select description</option>';
+    document.getElementById("customDescription").value = "";
+    document.getElementById("categoryDescription").innerText = "";
+  }
+
   applyFilters();
-  renderHome(); // reflect changes on home
+  renderHome();
 }
+
+
+
 
 /* ================= EXPORT CSV (Professional) ================= */
 function exportCSV(){
@@ -530,9 +965,25 @@ function exportCSV(){
   rows.push(["User Name", currentUser]);
   rows.push(["Total Amount", totalAmount]);
   rows.push([]);
-  rows.push(["Date","Category","Description","Amount"]);
+  rows.push([
+  "Date",
+  "Category",
+  "Category Description",
+  "Description",
+  "Description Description",
+  "Amount"
+]);
+
   expenses.forEach(e=>{
-    rows.push([e.date,e.category,e.descriptionType || "",e.amount]);
+    rows.push([
+  e.date,
+  e.category,
+  e.categoryNote || "",
+  e.descriptionType || "",
+  e.descriptionNote || "",
+  e.amount
+]);
+
   });
   rows.push([]);
   rows.push(["Total","", "", totalAmount]);
@@ -558,8 +1009,16 @@ function applyFilters(){
     summaryBody.innerHTML+=`
       <tr>
         <td>${e.date}</td>
-        <td>${e.category}</td>
-        <td>${e.descriptionType || "-"}</td>
+        <td>
+  ${e.category}
+  ${e.categoryNote ? `<div style="font-size:11px;opacity:.7">(${e.categoryNote})</div>` : ""}
+</td>
+
+<td>
+  ${e.descriptionType || "-"}
+  ${e.descriptionNote ? `<div style="font-size:11px;opacity:.7">(${e.descriptionNote})</div>` : ""}
+</td>
+
         <td>${currency.value}${e.amount}</td>
         <td>
           <button class="action-btn edit-btn" onclick="editExpense(${e.id})">Edit</button>
@@ -567,7 +1026,7 @@ function applyFilters(){
         </td>
       </tr>`; 
   });
-  renderHome();
+
 }
 
 /* ===== AUTO-SCROLL TO LATEST ENTRY ===== */
@@ -578,16 +1037,39 @@ if(wrapper){
 
 /* ================= EDIT & DELETE ================= */
 function editExpense(id){
-  let e = expenses.find(x=>x.id===id);
+  const e = expenses.find(exp => exp.id === id);
+  if(!e) return;
+
+  editId = e.id;
+
+  // Fill amount and date
   amount.value = e.amount;
-  category.value = e.category;
   date.value = e.date;
+
+  // CATEGORY (dropdown + free text)
+category.value = e.category;
+document.getElementById("customCategory").value = e.categoryNote || "";
+
+// Rebuild description dropdown based on category
+showCategoryDescription();
+
+// DESCRIPTION (dropdown + free text)
+setTimeout(() => {
   document.getElementById("descriptionType").value = e.descriptionType || "";
-  editId = id;
+  document.getElementById("customDescription").value = e.descriptionNote || "";
+}, 0);
+
+
+
   addBtn.innerText = "Update Expense";
+
+  // Switch to Add tab
   switchScreen('add', navItems[1]);
-  showCategoryDescription();
 }
+
+
+
+
 
 function deleteExpense(id){
   expenses = expenses.filter(e=>e.id!==id);
@@ -609,7 +1091,49 @@ function switchScreen(id, el){
   document.getElementById(id).classList.add("active");
   navItems.forEach(n=>n.classList.remove("active"));
   el.classList.add("active");
-  if(id==="home") renderHome();
+
+  navItems.forEach(n=>n.classList.remove("active"));
+el.classList.add("active");
+
+// 🌟 Change icon color + pop tab
+navItems.forEach(n => {
+  const icon = n.querySelector("svg");
+  if (n === el) {
+    // Active tab: pop + unique color
+    n.style.transform = "translateY(-8px)";
+    icon.style.transform = "scale(1.2)";
+    icon.style.stroke = "#ffcc00"; // gold for active
+    // Spin animation on click
+    icon.style.animation = "none";
+    void icon.offsetWidth; // force reflow
+    icon.style.animation = "spin 0.7s ease-out";
+  } else {
+    // Reset other tabs
+    n.style.transform = "translateY(0)";
+    icon.style.transform = "scale(1)";
+    icon.style.stroke = "#ffffff"; // default color
+    icon.style.animation = "none";
+  }
+});
+
+
+// ⚡ Pop nav item with bounce
+el.style.animation = "none";              // reset previous animation
+void el.offsetWidth;                       // force reflow
+el.style.animation = "popBounce 0.35s ease-out forwards"; // pop + bounce
+
+// ⚡ Change icon color smoothly
+
+  
+  if (id === "home") {
+  renderHome();
+}
+
+if (id === "list") {
+  applyFilters(); // 🔑 ensures Expense tab always reflects latest data
+}
+
+  
 }
 
 /* ================= HOME RENDER ================= */
@@ -643,9 +1167,9 @@ function renderHome(){
       <div class="home-title">Expense Tracker</div>
       <div class="home-quote">Hello, ${displayName}! 😊💰 Track expenses • Control spending • Live happily</div>
       ${recentHTML}
-      <div class="total-caption">Recent Total</div>
+      <div class="total-caption">Summary-Gist of Recent Total</div>
       <div class="total-box">${currency.value}${totalRecent}</div>
-      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.1 Dt:01/01/2026</div>
+      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.5 Dt:10/01/2026</div>
     </div>`;
 }
 
@@ -657,7 +1181,14 @@ function showCategoryDescription(){
   if(!categorySelect || !descBox || !descSelect) return;
   const selected=categorySelect.value;
   descBox.innerText="";
-  descSelect.innerHTML='<option value="">Select description</option>';
+  // Clear description dropdown ONLY when not editing
+if(!editId){
+  descSelect.innerHTML = '<option value="">Select description</option>';
+} else {
+  descSelect.innerHTML = '<option value="">Select description</option>';
+}
+
+
   if(!selected) return;
   descBox.innerText=categoryDescriptions[selected] || "";
   (categoryDescriptionOptions[selected] || []).forEach(item=>{
@@ -705,7 +1236,356 @@ function saveCurrency(){
   applyFilters();
 }
 
+/* ================= BACKUP & RESTORE ================= */
+
+/*
+IMPORTANT DESIGN NOTE:
+- Backup Data / Restore Data are INTENTIONALLY kept
+- They support lightweight expense-only recovery
+- Backup Full Profile is for complete cross-device portability
+- Do NOT remove these unless architecture changes
+*/
+
+
+function backupData(){
+  if(!currentUser){
+    alert("Please login first");
+    return;
+  }
+
+  const backupObj = {
+    version: "RC V1.5",
+    user: currentUser,
+    currency: localStorage.getItem(`currency_${currentUser}`) || "₹",
+    expenses: JSON.parse(localStorage.getItem(`expenses_${currentUser}`) || "[]"),
+    createdAt: new Date().toISOString()
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(backupObj, null, 2));
+
+  const a = document.createElement("a");
+  a.href = dataStr;
+  a.download = `Expense_Backup_${currentUser}.json`;
+  a.click();
+}
+
+/* ================= FULL PROFILE BACKUP ================= */
+/*
+Includes:
+- User credentials
+- Expenses
+- Currency
+Manual cross-device portability
+*/
+
+function backupFullProfile(){
+  if(!currentUser){
+    alert("Please login first");
+    return;
+  }
+
+  let userRecord = null;
+
+  for (let email in users) {
+    if (users[email].username === currentUser) {
+      userRecord = {
+        email: email,
+        username: users[email].username,
+        password: users[email].password
+      };
+      break;
+    }
+  }
+
+  if(!userRecord){
+    alert("User credentials not found");
+    return;
+  }
+
+  const backupObj = {
+    version: "RC V1.5",
+    backupType: "FULL_PROFILE",
+    user: currentUser,
+    credentials: userRecord,
+    currency: localStorage.getItem(`currency_${currentUser}`) || "₹",
+    expenses: JSON.parse(localStorage.getItem(`expenses_${currentUser}`) || "[]"),
+    createdAt: new Date().toISOString()
+  };
+
+  const dataStr =
+    "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(backupObj, null, 2));
+
+  const a = document.createElement("a");
+  a.href = dataStr;
+  a.download = `Expense_Full_Profile_${currentUser}.json`;
+  a.click();
+}
+
+
+function restoreData(){
+  if(!currentUser){
+    alert("Please login first");
+    return;
+  }
+
+  const jsonInput = prompt(
+    "Paste your backup JSON here.\n\n⚠️ This will REPLACE existing data for this user."
+  );
+
+  if(!jsonInput) return;
+
+  try{
+    const data = JSON.parse(jsonInput);
+
+    if(!data.user || !Array.isArray(data.expenses)){
+      alert("Invalid backup file");
+      return;
+    }
+
+    if(data.user !== currentUser){
+      const proceed = confirm(
+        "Backup user does not match logged-in user.\n\nContinue anyway?"
+      );
+      if(!proceed) return;
+    }
+
+    localStorage.setItem(`expenses_${currentUser}`, JSON.stringify(data.expenses));
+    localStorage.setItem(`currency_${currentUser}`, data.currency || "₹");
+
+    alert("Restore successful. App will reload.");
+    location.reload();
+
+  }catch(e){
+    alert("Invalid JSON format");
+  }
+}
+
+
+function handleRestoreFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const jsonText = e.target.result;
+
+      // reuse existing restore logic safely
+      const data = JSON.parse(jsonText);
+
+      if(!data.user || !Array.isArray(data.expenses)){
+        alert("Invalid backup file");
+        return;
+      }
+
+      if(data.user !== currentUser){
+        const proceed = confirm(
+          "Backup user does not match logged-in user.\n\nContinue anyway?"
+        );
+        if(!proceed) return;
+      }
+
+// ================= FULL PROFILE RESTORE SUPPORT =================
+
+// If this is a FULL PROFILE backup, restore credentials
+if (data.backupType === "FULL_PROFILE" && data.credentials) {
+
+  // Restore user into users object
+  users[data.credentials.email] = {
+    username: data.credentials.username,
+    password: data.credentials.password
+  };
+
+  // Persist users
+  localStorage.setItem("users", JSON.stringify(users));
+
+  // Switch session to restored user
+  currentUser = data.credentials.username;
+  sessionStorage.setItem("currentUser", currentUser);
+  sessionStorage.setItem("loggedIn", "yes");
+}
+
+// Restore expenses & currency (works for BOTH backup types)
+localStorage.setItem(
+  `expenses_${currentUser}`,
+  JSON.stringify(data.expenses)
+);
+
+localStorage.setItem(
+  `currency_${currentUser}`,
+  data.currency || "₹"
+);
+
+alert("Restore successful. App will reload.");
+location.reload();
+
+
+    }catch(err){
+      alert("Invalid JSON format");
+    }
+  };
+
+  reader.readAsText(file);
+
+  // reset input so same file can be reused if needed
+  event.target.value = "";
+}
+
+
+// Step 4: position the floating pill under the active nav item on page load
+const activeNav = document.querySelector('.nav-item.active'); // find the active nav item
+if (activeNav) {
+  moveFloatingPill(activeNav); // move the pill under it
+}
+
 applyFilters();
+
+function moveFloatingPill(el) {
+  const nav = document.querySelector('.bottom-nav');
+  const pill = nav.querySelector('.floating-pill');
+  const navItems = nav.querySelectorAll('.nav-item');
+
+  // index of clicked nav-item
+  let index = Array.from(navItems).indexOf(el);
+
+  // width of each item
+  let spacing = nav.offsetWidth / navItems.length;
+
+  // center pill under icon
+  pill.style.left = `${spacing * index + (spacing - pill.offsetWidth)/2}px`;
+}
+
+function registerUser(){
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const password = document.getElementById("regPassword").value;
+
+  const err = document.getElementById("regError");
+  err.innerText = "";
+
+  if(!name || !email || !password){
+    err.innerText = "All fields required";
+    return;
+  }
+
+  if(users[email]){
+    err.innerText = "Email already registered";
+    return;
+  }
+
+  for(let e in users){
+    if(users[e].username === name){
+      err.innerText = "Username already exists";
+      return;
+    }
+  }
+
+  users[email] = { username:name, password:password };
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Registration successful. Please login.");
+  backToLogin();
+}
+
+
+// ================= FORGOT PASSWORD =================
+function forgotPasswordUI() {
+    const emailInput = document.getElementById("forgotEmail");
+    const msg = document.getElementById("forgotMessage");
+    const email = emailInput.value.trim();
+    msg.style.color = "#d9534f"; // default red for error
+    msg.innerText = "";
+
+    if (!email) {
+        msg.innerText = "Please enter your registered email.";
+        return;
+    }
+
+    if (!users[email]) {
+        msg.innerText = "❌ No account found with this email.";
+        return;
+    }
+
+    const username = users[email].username;
+    const password = users[email].password;
+
+    msg.style.color = "#28a745"; // green for success
+    msg.innerText = `✅ Your credentials:\nUsername: ${username}\nPassword: ${password}`;
+
+    emailInput.value = "";
+}
+
+
+/* ================= PRE-LOGIN FULL PROFILE RESTORE ================= */
+/*
+Purpose:
+- Restore FULL_PROFILE backup BEFORE login
+- Safely recreate user credentials + expenses
+- Does NOT affect existing login logic
+*/
+
+function handlePreLoginRestore(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+
+      // Validate FULL PROFILE backup
+      if(
+        data.backupType !== "FULL_PROFILE" ||
+        !data.credentials ||
+        !data.credentials.email ||
+        !data.credentials.username ||
+        !data.credentials.password
+      ){
+        alert("❌ Invalid FULL PROFILE backup file.");
+        return;
+      }
+
+      // Restore user credentials
+      users[data.credentials.email] = {
+        username: data.credentials.username,
+        password: data.credentials.password
+      };
+
+      // Persist users
+      localStorage.setItem("users", JSON.stringify(users));
+
+      // Restore expenses
+      localStorage.setItem(
+        `expenses_${data.credentials.username}`,
+        JSON.stringify(data.expenses || [])
+      );
+
+      // Restore currency
+      localStorage.setItem(
+        `currency_${data.credentials.username}`,
+        data.currency || "₹"
+      );
+
+      alert(
+        "✅ Profile restored successfully.\n\nYou can now login using:\nUsername: "
+        + data.credentials.username
+      );
+
+    }catch(err){
+      alert("❌ Invalid JSON file format.");
+    }
+  };
+
+  reader.readAsText(file);
+
+  // Reset input so same file can be reused
+  event.target.value = "";
+}
+
+
 </script>
 </body>
 </html>
