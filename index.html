@@ -454,7 +454,7 @@ Please review entries carefully and use backups when switching.
         <a href="#" onclick="showRegister()">New User? Register</a><br>
         <a href="#" onclick="showForgot()">Forgot Password?</a><br>
         <p style="margin-top:16px;">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved
-RC V1.5 Dt:10/01/2026</p>
+RC V1.6 Dt:11/01/2026</p>
       </p>
     </div>
   </div>
@@ -708,7 +708,7 @@ Please verify entries carefully and use backups when needed.
       </div>
 
       <p style="margin-top:16px;">💡 Tip: Start by entering your name in the Home tab, then add expenses, view summaries, and explore statistics in the User tab.<br><br>© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved
-RC V1.5 Dt:10/01/2026</p>
+RC V1.6 Dt:11/01/2026</p>
     </div>
   </div>
 
@@ -1169,7 +1169,7 @@ function renderHome(){
       ${recentHTML}
       <div class="total-caption">Summary-Gist of Recent Total</div>
       <div class="total-box">${currency.value}${totalRecent}</div>
-      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.5 Dt:10/01/2026</div>
+      <div class="home-disclaimer">© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved <br> RC V1.6 Dt:11/01/2026</div>
     </div>`;
 }
 
@@ -1254,7 +1254,7 @@ function backupData(){
   }
 
   const backupObj = {
-    version: "RC V1.5",
+    version: "RC V1.6",
     user: currentUser,
     currency: localStorage.getItem(`currency_${currentUser}`) || "₹",
     expenses: JSON.parse(localStorage.getItem(`expenses_${currentUser}`) || "[]"),
@@ -1304,7 +1304,7 @@ function backupFullProfile(){
   }
 
   const backupObj = {
-    version: "RC V1.5",
+    version: "RC V1.6",
     backupType: "FULL_PROFILE",
     user: currentUser,
     credentials: userRecord,
