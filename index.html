@@ -509,10 +509,18 @@ RC V1.6 Dt:11/01/2026</p>
       <input id="username">
       <label>Currency</label>
       <select id="currency" onchange="saveCurrency()">
-        <option value="₹">INR</option>
-        <option value="$">USD</option>
-        <option value="€">EUR</option>
-      </select>
+  <option value="₹">INR – Indian Rupee</option>
+  <option value="I₹">BRICS – I₹</option>
+  <option value="$">USD – US Dollar</option>
+  <option value="€">EUR – Euro</option>
+  <option value="S$">SGD – Singapore Dollar</option>
+  <option value="﷼">SAR – Saudi Riyal</option>
+  <option value="¥">JPY – Japanese Yen</option>
+  <option value="¥">CNY – Chinese Yuan</option>
+  
+
+</select>
+
       <label>Amount</label>
       <input type="number" id="amount">
       <label>Category</label>    
@@ -636,6 +644,38 @@ RC V1.6 Dt:11/01/2026</p>
 
   <!-- INSTRUCTIONS TAB -->
   <div id="instructions" class="screen">
+
+Expense Tracker – Release Notes
+Version: RC V1.6 
+Release Date: 11 Jan 2026
+
+✨ New Features
+• User login with local secure storage
+• Category-wise expense tracking with optional free-text notes
+• Description dropdown with custom entry support
+• Full Profile Backup & Restore (Login + Data)
+• Expense export to CSV for offline analysis
+• Dark Mode toggle for better usability
+
+🔧 Improvements
+• Improved expense table scrolling and mobile responsiveness
+• Faster navigation with animated bottom tab bar
+• Enhanced category descriptions for clarity
+• Better backup explanations for safer data handling
+
+🐞 Fixes
+• Resolved edit/update inconsistencies in expense entries
+• Improved restore handling for cross-device scenarios
+• UI alignment fixes for small screen devices
+
+ℹ️ Important Notes
+• Data is stored locally per browser/device by design
+• Switching browsers or devices requires Backup & Restore
+• Smartphone browsers may have storage limitations
+
+© 2025–2026 Sivakumar | All rights reserved
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;------- End of Notes ------- <br>
+<br>
     <!-- ================= GLOBAL DISCLAIMER ================= -->
 <div style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; 
             padding:14px; border-radius:14px; margin-bottom:16px; font-size:13px;">
@@ -715,7 +755,7 @@ RC V1.6 Dt:11/01/2026</p>
 </div>
 
 <!-- NAV -->
-<div class="bottom-nav hidden">
+<div class="bottom-nav hidden"> 
 <div class="floating-pill"></div>
 
 
@@ -772,7 +812,8 @@ const loginPassword = document.getElementById("loginPassword");
 const categoryDescriptionOptions = {
   Food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Groceries"],
   Travel: ["Bus", "Train", "Cab", "Flight", "Metro"],
-  Shopping: ["Clothes", "Electronics", "Accessories", "Online Purchase"],
+  Shopping: ["Clothes", "Electronics", "Accessories", "Offline Purchases", "Online Purchases"],
+
   Fuel: ["Petrol", "Diesel", "CNG", "EV Charging"],
   FASTag: ["Highway Toll", "Parking Toll"],
   Miscellaneous: ["Medical", "Repair", "Donation", "Other"]
@@ -963,33 +1004,40 @@ function exportCSV(){
   let totalAmount = expenses.reduce((s,e)=>s+Number(e.amount),0);
   let rows = [];
   rows.push(["User Name", currentUser]);
-  rows.push(["Total Amount", totalAmount]);
+  rows.push(["Total Amount", currency.value + " " + totalAmount]);
+
   rows.push([]);
-  rows.push([
+ rows.push([
   "Date",
   "Category",
   "Category Description",
   "Description",
   "Description Description",
+  "Currency",
   "Amount"
 ]);
 
+
   expenses.forEach(e=>{
-    rows.push([
+   rows.push([
   e.date,
   e.category,
   e.categoryNote || "",
   e.descriptionType || "",
   e.descriptionNote || "",
+  currency.value,
   e.amount
 ]);
 
+
   });
   rows.push([]);
-  rows.push(["Total","", "", totalAmount]);
+  rows.push(["Total", "", "", "", "", currency.value, totalAmount]);
 
-  let csvContent = "data:text/csv;charset=utf-8," 
-    + rows.map(e => e.map(a=>`"${a}"`).join(",")).join("\n");
+
+  let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+  + rows.map(e => e.map(a=>`"${a}"`).join(",")).join("\n");
+
 
   const a = document.createElement("a");
   a.href = encodeURI(csvContent);
