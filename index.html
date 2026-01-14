@@ -382,6 +382,45 @@ button:hover{transform:translateY(-2px)}
   opacity: 1;
 }
 
+/* ================= ACCORDION (INSTRUCTIONS) ================= */
+.accordion-item {
+  margin-bottom: 12px;
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.accordion-header {
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-header span {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.accordion-content {
+  display: none;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  background: rgba(0,0,0,0.08);
+}
+
+.accordion-item.active .accordion-content {
+  display: block;
+}
+
+.accordion-item.active .accordion-header span {
+  transform: rotate(180deg);
+}
+
 
 </style>
 </head>
@@ -643,116 +682,132 @@ RC V1.6 Dt:11/01/2026</p>
   </div>
 
   <!-- INSTRUCTIONS TAB -->
-  <div id="instructions" class="screen">
+  
 
-Expense Tracker – Release Notes
-Version: RC V1.6 
-Release Date: 11 Jan 2026
-
-✨ New Features
-• User login with local secure storage
-• Category-wise expense tracking with optional free-text notes
-• Description dropdown with custom entry support
-• Full Profile Backup & Restore (Login + Data)
-• Expense export to CSV for offline analysis
-• Dark Mode toggle for better usability
-
-🔧 Improvements
-• Improved expense table scrolling and mobile responsiveness
-• Faster navigation with animated bottom tab bar
-• Enhanced category descriptions for clarity
-• Better backup explanations for safer data handling
-
-🐞 Fixes
-• Resolved edit/update inconsistencies in expense entries
-• Improved restore handling for cross-device scenarios
-• UI alignment fixes for small screen devices
-
-ℹ️ Important Notes
-• Data is stored locally per browser/device by design
-• Switching browsers or devices requires Backup & Restore
-• Smartphone browsers may have storage limitations
-
-© 2025–2026 Sivakumar | All rights reserved
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;------- End of Notes ------- <br>
-<br>
-    <!-- ================= GLOBAL DISCLAIMER ================= -->
-<div style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; 
-            padding:14px; border-radius:14px; margin-bottom:16px; font-size:13px;">
-  ⚠️ <strong>Important Note for All Users:</strong><br>
-  Your data is stored per user in the current browser/device only.<br>
-Switching browsers or devices will start with a fresh view by design.<br><br>
-
-To prevent data loss when changing environments:<br>
-• <b>Export CSV</b> for safe records or re-entry<br>
-• <b>Backup Full Profile</b> for complete login + data restoration<br><br>
-
-• Use <b>Export CSV</b> for records or manual re-entry<br>
-• Use <b>Backup Full Profile</b> to fully restore login and data when switching between browsers<br>
-&nbsp;&nbsp;(For best results, create and restore backups on a laptop or desktop computer, as smartphone browsers may have storage and file access limitations)<br><br>
+<div id="instructions" class="screen">
 
 
-This approach keeps the application fast, private, and offline-friendly.
-Please verify entries carefully and use backups when needed.
+  
+  <div class="card">
+    <h3>Expense Tracker – Release Notes & Important Notes</h3>
 
-</div>
-
-    <div class="card">
-      <h3>Expense Tracker - User Guide</h3>
-      <p>This simple application helps you monitor your daily expenses. Follow the tabs below to understand its features:</p>
-      
-      <!-- AUTHENTICATION INSTRUCTIONS -->
-<div style="margin-top:16px;">
-  <h4>🔐 Part 1: Login & Access</h4>
-
-  <p>👤 <strong>Existing User – Login</strong></p>
-  <p>Enter your registered <b>Username</b> and <b>Password</b> on the Login screen, then click <b>Login</b> to access the application.</p>
-
-  <p>🆕 <strong>New User – Registration</strong></p>
-  <p>Click <b>New User? Register</b> on the Login screen. Enter a unique <b>Username</b>, a valid <b>Email ID</b>, and a <b>Password</b>. After successful registration, return to the Login screen and log in.</p>
-
-  <p>🔑 <strong>Forgot Username / Password</strong></p>
-  <p>Click <b>Forgot Password?</b> on the Login screen. Enter your registered <b>Email ID</b> to retrieve your Username and Password.</p>
-
-  <hr style="margin:18px 0; opacity:0.4;">
-</div>
-
-
-      
-      <div style="margin-top:16px;">
-        <strong>1. 🏠 Home Tab:</strong>
-        <p>Welcome screen displaying your name and a summary of all expenses. The recent expenses table shows the latest entries and total spent.</p>
+    <!-- Accordion: Release Notes -->
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        ✨ Release Notes <span>⌄</span>
       </div>
-
-      <div style="margin-top:16px;">
-        <strong>2. ➕ Add Tab:</strong>
-        <p>Use this tab to add new expenses. Fill your name, amount, category, description, and date. Click <b>Add Expense</b> to save.</p>
-        <p>Updating an expense is done via the <b>Expense tab</b> (3rd tab) using the Edit button.</p>
-      </div>
-
-      <div style="margin-top:16px;">
-        <strong>3. 💸 Expense Tab:</strong>
-        <p>Displays all expenses in a table. You can <b>Edit</b> or <b>Delete</b> entries. Editing redirects you to the Add tab.</p>
-      </div>
-
-      <div style="margin-top:16px;">
-        <strong>4. 👤 User Tab:</strong>
-        <p>This tab contains:</p>
+      <div class="accordion-content">
+        <p><b>Version:</b> RC V1.6</p>
+        <p><b>Release Date:</b> 11 Jan 2026</p>
+        <b>New Features:</b>
         <ul>
-          <li><b>Insights:</b> Overview of total spending.</li>
-          <li><b>Budget:</b> Average spending per entry.</li>
-          <li><b>Categories:</b> Spending grouped by category.</li>
-          <li><b>Preferences:</b> Most preferred category based on total spending and frequency.</li>
-          <li>Options to <b>Export CSV</b>, <b>Toggle Dark Mode</b>, and <b>Logout</b>.</li>
+          <li>User login with local secure storage</li>
+          <li>Category-wise expense tracking with optional free-text notes</li>
+          <li>Description dropdown with custom entry support</li>
+          <li>Full Profile Backup & Restore (Login + Data)</li>
+          <li>Expense export to CSV for offline analysis</li>
+          <li>Dark Mode toggle for better usability</li>
+        </ul>
+        <b>Improvements:</b>
+        <ul>
+          <li>Improved expense table scrolling and mobile responsiveness</li>
+          <li>Faster navigation with animated bottom tab bar</li>
+          <li>Enhanced category descriptions for clarity</li>
+          <li>Better backup explanations for safer data handling</li>
+        </ul>
+        <b>Fixes:</b>
+        <ul>
+          <li>Resolved edit/update inconsistencies in expense entries</li>
+          <li>Improved restore handling for cross-device scenarios</li>
+          <li>UI alignment fixes for small screen devices</li>
         </ul>
       </div>
+    </div>
 
-      <p style="margin-top:16px;">💡 Tip: Start by entering your name in the Home tab, then add expenses, view summaries, and explore statistics in the User tab.<br><br>© 2025–2026 Sivakumar | siva80mail@gmail.com | All rights reserved
-RC V1.6 Dt:11/01/2026</p>
+    <!-- Accordion: Important Note for All Users -->
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        ⚠️ Important Note for All Users <span>⌄</span>
+      </div>
+      <div class="accordion-content">
+        <p>Your data is stored per user in the current browser/device only.</p>
+        <p>Switching browsers or devices will start with a fresh view by design.</p>
+        <p>To prevent data loss when changing environments:</p>
+        <ul>
+          <li><b>Export CSV</b> for safe records or re-entry</li>
+          <li><b>Backup Full Profile</b> for complete login + data restoration</li>
+        </ul>
+        <p>This approach keeps the application fast, private, and offline-friendly.</p>
+        <p>Please verify entries carefully and use backups when needed.</p>
+      </div>
+    </div>
+
+    <div class="card">
+   
+  <h3>Expense Tracker - User Guide</h3>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      🔐 Login & Access <span>⌄</span>
+    </div>
+    <div class="accordion-content">
+      <p><b>Existing User:</b> Enter your Username and Password, then click Login.</p>
+      <p><b>New User:</b> Click “New User? Register”, fill details, then log in.</p>
+      <p><b>Forgot Password:</b> Use registered email to recover credentials.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      🏠 Home Tab <span>⌄</span>
+    </div>
+    <div class="accordion-content">
+      Displays your name, recent expenses, and total spending summary.
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      ➕ Add Expense <span>⌄</span>
+    </div>
+    <div class="accordion-content">
+      Enter amount, category, description, and date.
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      💸 Expense List <span>⌄</span>
+    </div>
+    <div class="accordion-content">
+      View, edit, or delete all expenses.
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      👤 User Dashboard <span>⌄</span>
+    </div>
+    <div class="accordion-content">
+      Budget tracking, insights, export options, and preferences.
     </div>
   </div>
 
 </div>
+
+     
+     
+    </div>
+
+
+    
+
+  </div>
+</div>
+
+
+   
+  
 
 <!-- NAV -->
 <div class="bottom-nav hidden"> 
@@ -1275,6 +1330,13 @@ function renderPreference(){
   let preferred=Object.entries(stats).sort((a,b)=>b[1].total-a[1].total||b[1].count-a[1].count)[0];
   userOutput.innerHTML="Most preferred category: <b>"+preferred[0]+"</b><br>Total spent: "+currency.value+preferred[1].total+"<br>Purchases: "+preferred[1].count;
 }
+
+/* ================= ACCORDION TOGGLE ================= */
+function toggleAccordion(header){
+  const item = header.parentElement;
+  item.classList.toggle("active");
+}
+
 
 /* ================= MISC ================= */
 function toggleDarkMode(){document.body.classList.toggle("dark");}
