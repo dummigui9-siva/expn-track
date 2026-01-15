@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <title>Expense Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0b2545">
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
+
 
 <style>
 .hidden { display: none !important; }
@@ -1699,4 +1709,3 @@ function handlePreLoginRestore(event){
 </script>
 </body>
 </html>
-
