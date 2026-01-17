@@ -819,6 +819,19 @@ RC V1.6 Dt:11/01/2026</p>
 
 
    
+<!-- PWA Install Button (Hidden by default) -->
+<button id="installBtn" class="hidden" style="
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 12px;
+  background-color: #0b2545;
+  color: #fff;
+  font-weight: 600;
+  z-index: 1000;
+">Install App</button>
   
 
 <!-- NAV -->
@@ -1706,6 +1719,30 @@ function handlePreLoginRestore(event){
   // Reset input so same file can be reused
   event.target.value = "";
 }
+
+  /* ================= PWA INSTALL ================= */
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.classList.remove("hidden");
+});
+
+installBtn.addEventListener("click", async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if(outcome === 'accepted') console.log("App installed");
+  deferredPrompt = null;
+  installBtn.classList.add("hidden");
+});
+
+window.addEventListener("appinstalled", () => {
+  console.log("App successfully installed");
+  installBtn.classList.add("hidden");
+});
 
 
 </script>
