@@ -820,21 +820,27 @@ RC V1.6 Dt:11/01/2026</p>
 
    
 <!-- PWA Install Button (Hidden by default) -->
-<button id="installBtn" class="hidden" style="
+  
+<!-- PWA Install Floating Container -->
+<div id="installBtnContainer" style="
   position: fixed;
-  bottom: 20px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 12px 20px;
-  border-radius: 24px;
-  background-color: #0b2545;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 16px;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  cursor: pointer;
-">Install App</button>
+">
+  <button id="installBtn" class="hidden" style="
+    padding: 12px 28px;
+    border-radius: 24px;
+    background-color: #0b2545;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border: none;
+  ">Install App</button>
+</div>
   
 
 <!-- NAV -->
