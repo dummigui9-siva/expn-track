@@ -442,35 +442,6 @@ button:hover{transform:translateY(-2px)}
 }
 
 /* ================= PWA INSTALL BUTTON ================= */
-#installBtnContainer {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  text-align: center; /* center button */
-}
-
-#installBtn {
-  padding: 12px 28px;
-  border-radius: 24px;
-  background-color: #0b2545;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  border: none;
-  display: inline-block; /* prevent stretching */
-  transition: transform 0.2s, background-color 0.2s;
-}
-
-#installBtn:hover {
-  background-color: #162c4f;
-  transform: scale(1.05);
-}
- 
-
 </style>
 </head>
 <body>
@@ -859,10 +830,7 @@ RC V1.6 Dt:11/01/2026</p>
 <!-- PWA Install Button (Hidden by default) -->
   
 <!-- PWA Install Button -->
-<div id="installBtnContainer">
-  <button id="installBtn" class="hidden">Install App</button>
-</div>
-  
+
 
 <!-- NAV -->
 <div class="bottom-nav hidden"> 
