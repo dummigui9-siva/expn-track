@@ -239,23 +239,6 @@ button:hover{transform:translateY(-2px)}
 
 /* ================= NAV BAR (NAVY + DARK BROWN HALO) ================= */
 
-/* Floating pill behind active icon */
-.floating-pill {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 56px;
-  height: 56px;
-  background: #654321; /* dark brown halo behind icon */
-  border-radius: 50%;
-  transform: translateY(-50%);
-  transition: left 0.35s cubic-bezier(.22,.61,.36,1);
-  z-index: 1;
-}
-
-
-
-
 
 /* ================= NAV BAR (NAVY + WHITE ICONS, ACTIVE NAV POP-UP) ================= */
 
@@ -334,11 +317,6 @@ button:hover{transform:translateY(-2px)}
   100% { transform: translateY(-8px); }
 }
 
-
-/* Remove floating-pill entirely */
-.floating-pill{
-  display: none !important;
-}
 
 
 /* Spin animation for navbar icon */
@@ -1189,31 +1167,7 @@ function switchScreen(id, el){
 el.classList.add("active");
 
 // 🌟 Change icon color + pop tab
-navItems.forEach(n => {
-  const icon = n.querySelector("svg");
-  if (n === el) {
-    // Active tab: pop + unique color
-    n.style.transform = "translateY(-8px)";
-    icon.style.transform = "scale(1.2)";
-    icon.style.stroke = "#ffcc00"; // gold for active
-    // Spin animation on click
-    icon.style.animation = "none";
-    void icon.offsetWidth; // force reflow
-    icon.style.animation = "spin 0.7s ease-out";
-  } else {
-    // Reset other tabs
-    n.style.transform = "translateY(0)";
-    icon.style.transform = "scale(1)";
-    icon.style.stroke = "#ffffff"; // default color
-    icon.style.animation = "none";
-  }
-});
 
-
-// ⚡ Pop nav item with bounce
-el.style.animation = "none";              // reset previous animation
-void el.offsetWidth;                       // force reflow
-el.style.animation = "popBounce 0.35s ease-out forwards"; // pop + bounce
 
 // ⚡ Change icon color smoothly
 
