@@ -1,3 +1,4 @@
+index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -981,13 +982,26 @@ function login(){
 
 
 function logout(){
-  sessionStorage.removeItem("loggedIn");
-  sessionStorage.removeItem("currentUser");
+  sessionStorage.clear();
+
+  document.getElementById("mainApp").classList.add("hidden");
+  document.getElementById("loginScreen").style.display = "block";
+  document.querySelector(".bottom-nav").classList.add("hidden");
+
   location.reload();
 }
 
 
 function initApp(){
+
+if (
+  !sessionStorage.getItem("loggedIn") ||
+  !sessionStorage.getItem("currentUser")
+) {
+  logout();
+  return;
+}
+
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("mainApp").classList.remove("hidden");
 
@@ -1010,14 +1024,22 @@ function initApp(){
 
 
 
-if(sessionStorage.getItem("loggedIn")==="yes" && sessionStorage.getItem("currentUser")){
-  currentUser=sessionStorage.getItem("currentUser");
-  const saved = localStorage.getItem(`expenses_${currentUser}`);
-  currency.value = localStorage.getItem(`currency_${currentUser}`) || "₹";
-  expenses = saved ? JSON.parse(saved) : [];
-  profileName.innerText=currentUser;
+if (
+  sessionStorage.getItem("loggedIn") === "yes" &&
+  sessionStorage.getItem("currentUser") &&
+  localStorage.getItem(`expenses_${sessionStorage.getItem("currentUser")}`) !== null
+) {
+  currentUser = sessionStorage.getItem("currentUser");
   initApp();
+} else {
+  // 🔐 HARD RESET TO LOGIN STATE
+  sessionStorage.clear();
+
+  document.getElementById("mainApp").classList.add("hidden");
+  document.getElementById("loginScreen").style.display = "block";
+  document.querySelector(".bottom-nav").classList.add("hidden");
 }
+
 
 /* ================= EXPENSE FUNCTIONS ================= */
 function addExpense(){
