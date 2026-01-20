@@ -827,9 +827,7 @@ RC V1.6 Dt:11/01/2026</p>
 
    
 <!-- NAV -->
-<div class="bottom-nav hidden"> 
-
-
+<div class="bottom-nav hidden" id="bottomNav">
 
   <div class="nav-item active" onclick="switchScreen('home',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -863,6 +861,27 @@ RC V1.6 Dt:11/01/2026</p>
 <script>
 
 /* ================= JS ================= */
+
+// 🔐 HARD AUTH GUARD — runs BEFORE anything else
+(function authBootGuard() {
+  const isLoggedIn =
+    sessionStorage.getItem("loggedIn") === "yes" &&
+    sessionStorage.getItem("currentUser");
+
+  if (!isLoggedIn) {
+    sessionStorage.clear();
+
+    document.getElementById("loginScreen").style.display = "block";
+    document.getElementById("mainApp").classList.add("hidden");
+
+    const nav = document.getElementById("bottomNav");
+    if (nav) nav.classList.add("hidden");
+
+    return; // ⛔ STOP JS EXECUTION COMPLETELY
+  }
+})();
+
+
 const currency = document.getElementById("currency");
 const username = document.getElementById("username");
 const profileName = document.getElementById("profileName");
@@ -1021,24 +1040,6 @@ if (
   applyFilters();
 }
 
-
-
-
-if (
-  sessionStorage.getItem("loggedIn") === "yes" &&
-  sessionStorage.getItem("currentUser") &&
-  localStorage.getItem(`expenses_${sessionStorage.getItem("currentUser")}`) !== null
-) {
-  currentUser = sessionStorage.getItem("currentUser");
-  initApp();
-} else {
-  // 🔐 HARD RESET TO LOGIN STATE
-  sessionStorage.clear();
-
-  document.getElementById("mainApp").classList.add("hidden");
-  document.getElementById("loginScreen").style.display = "block";
-  document.querySelector(".bottom-nav").classList.add("hidden");
-}
 
 
 /* ================= EXPENSE FUNCTIONS ================= */
