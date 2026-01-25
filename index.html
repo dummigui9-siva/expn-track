@@ -8,9 +8,12 @@
 <meta name="theme-color" content="#0b2545">
 
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/expn-track/service-worker.js");
-  }
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log('Service Worker Registered'))
+    .catch(err => console.error('Service Worker registration failed:', err));
+}
+
 
 // 🔐 Global Hard Reset on Storage Clear (works from any tab)
 window.addEventListener('storage', (event) => {
@@ -29,9 +32,9 @@ window.addEventListener('storage', (event) => {
     location.reload();
   }
 });
+
   
 </script>
-
 <style>
 
   .hidden {
