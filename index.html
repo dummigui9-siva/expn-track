@@ -11,8 +11,6 @@
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/expn-track/service-worker.js");
   }
-</script>
-
 
 // 🔐 Global Hard Reset on Storage Clear (works from any tab)
 window.addEventListener('storage', (event) => {
@@ -31,10 +29,8 @@ window.addEventListener('storage', (event) => {
     location.reload();
   }
 });
-
   
 </script>
-
 
 <style>
 
