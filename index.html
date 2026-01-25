@@ -10,9 +10,29 @@
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/expn-track/service-worker.js");
-
-
   }
+</script>
+
+
+// 🔐 Global Hard Reset on Storage Clear (works from any tab)
+window.addEventListener('storage', (event) => {
+  if (currentUser && !localStorage.getItem(`expenses_${currentUser}`)) {
+    console.warn("⚠️ Storage cleared! Hard reset in progress...");
+    
+    // clear session
+    sessionStorage.clear();
+
+    // hide main app and show login
+    document.getElementById("mainApp").classList.add("hidden");
+    document.getElementById("loginScreen").style.display = "block";
+    document.querySelector(".bottom-nav").classList.add("hidden");
+
+    // reload page to ensure hard reset
+    location.reload();
+  }
+});
+
+  
 </script>
 
 
