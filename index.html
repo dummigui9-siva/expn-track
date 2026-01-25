@@ -42,6 +42,55 @@ window.addEventListener('storage', (event) => {
   display: none !important;
 }
 
+/* ===== LOGIN TITLE & ICON ===== */
+.login-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:6px;
+}
+
+.coin-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #ffd966, #c9a227);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.5),
+              inset 0 -3px 6px rgba(0,0,0,.35),
+              0 6px 14px rgba(0,0,0,.35);
+}
+
+.coin-icon svg{
+  width:22px;
+  height:22px;
+  stroke:#5a3b00;
+  stroke-width:2.2;
+  fill:none;
+}
+
+.title-expense{
+  font-size:28px;
+  font-weight:800;
+  color:#2fb9b3; /* mint */
+}
+
+.title-tracker{
+  font-size:28px;
+  font-weight:800;
+  color:#0b2545; /* navy */
+}
+
+.login-tagline{
+  font-size:12px;
+  opacity:.75;
+  margin-top:4px;
+}
+
+  
 /* ================= THEME ================= */
 :root{
   --bg1:#b4d4d2;
@@ -423,8 +472,27 @@ button:hover{transform:translateY(-2px)}
     <div class="card" style="margin-top:40%; text-align:center">
  
 <!-- App Logo -->
-      <h2>Expense Tracker</h2>
-       <p style="opacity:.7">Login to continue</p>
+<div class="login-header">
+  <div class="coin-icon">
+    <!-- circular arrow / money control -->
+    <svg viewBox="0 0 24 24">
+      <path d="M3 12a9 9 0 1 0 3-6"/>
+      <path d="M3 3v6h6"/>
+    </svg>
+  </div>
+
+  <div>
+    <div>
+      <span class="title-expense">Expense</span>
+      <span class="title-tracker"> Tracker</span>
+    </div>
+    <div class="login-tagline">
+      Track expenses • Control spending • Live happily
+    </div>
+  </div>
+</div>
+
+<p style="opacity:.7">Login to continue</p>
 
       <input id="loginName" placeholder="Username" style="margin-top:12px;">
 
