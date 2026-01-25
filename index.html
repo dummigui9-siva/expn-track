@@ -933,6 +933,26 @@ const categoryDescriptions = {
 
 let expenses = [];
 let currentUser = sessionStorage.getItem("currentUser") || null;
+
+let currentUser = sessionStorage.getItem("currentUser") || null;
+
+/* 🔐 HARD RESET WHEN STORAGE IS CLEARED FROM DEVTOOLS */
+window.addEventListener("storage", () => {
+  const user = sessionStorage.getItem("currentUser");
+
+  if (user && !localStorage.getItem(`expenses_${user}`)) {
+    console.warn("⚠️ Storage wiped via DevTools. Forcing hard reset.");
+
+    sessionStorage.clear();
+
+    document.getElementById("mainApp")?.classList.add("hidden");
+    document.getElementById("loginScreen").style.display = "block";
+    document.querySelector(".bottom-nav")?.classList.add("hidden");
+
+    location.reload();
+  }
+});
+
 let users = JSON.parse(localStorage.getItem("users")) || {};
 let editId = null;
 let editCategoryIsCustom = false;
