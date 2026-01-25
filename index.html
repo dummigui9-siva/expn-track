@@ -704,14 +704,10 @@ RC V1.6 Dt:11/01/2026</p>
           <li>Resolved edit/update inconsistencies in expense entries</li>
           <li>Improved restore handling for cross-device scenarios</li>
           <li>UI alignment fixes for small screen devices</li>
-          <li>
-  Implemented automatic <b>hard reset protection</b> when user data is cleared
-  via browser Developer Tools (F12 → Application → Clear Storage).
-</li>
-<li>
-  Clearing application data while logged in will immediately log out the user
-  and reset the app to the login screen.
-</li>
+          <li>Implemented automatic <b>hard reset protection</b> when user data is cleared
+              via browser Developer Tools (F12 → Application → Clear Storage).</li>
+          <li>Clearing application data while logged in will immediately log out the user
+               and reset the app to the login screen.</li>
 <li>
   This behavior is intentional to prevent partial data states and UI corruption.
 </li>
@@ -933,26 +929,6 @@ const categoryDescriptions = {
 
 let expenses = [];
 let currentUser = sessionStorage.getItem("currentUser") || null;
-
-let currentUser = sessionStorage.getItem("currentUser") || null;
-
-/* 🔐 HARD RESET WHEN STORAGE IS CLEARED FROM DEVTOOLS */
-window.addEventListener("storage", () => {
-  const user = sessionStorage.getItem("currentUser");
-
-  if (user && !localStorage.getItem(`expenses_${user}`)) {
-    console.warn("⚠️ Storage wiped via DevTools. Forcing hard reset.");
-
-    sessionStorage.clear();
-
-    document.getElementById("mainApp")?.classList.add("hidden");
-    document.getElementById("loginScreen").style.display = "block";
-    document.querySelector(".bottom-nav")?.classList.add("hidden");
-
-    location.reload();
-  }
-});
-
 let users = JSON.parse(localStorage.getItem("users")) || {};
 let editId = null;
 let editCategoryIsCustom = false;
