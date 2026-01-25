@@ -9,9 +9,8 @@
 
 <script>
   if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log('Service Worker Registered'))
-    .catch(err => console.error('Service Worker registration failed:', err));
+  navigator.serviceWorker.register("/expn-track/service-worker.js")
+    
 }
 
 
@@ -35,6 +34,8 @@ window.addEventListener('storage', (event) => {
 
   
 </script>
+
+
 <style>
 
   .hidden {
