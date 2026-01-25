@@ -595,23 +595,7 @@ RC V1.6 Dt:11/01/2026</p>
 <div id="mainApp" class="app hidden">
 
   <!-- HOME -->
-  <!-- HOME -->
-<div id="home" class="screen active">
-
-  <!-- Expense Tracker Header START -->
-  <div class="app-header">
-    <div class="header-icon">↺</div>
-    <div class="header-text">
-      <h1>
-        <span class="expense">Expense</span>
-        <span class="tracker">Tracker</span>
-      </h1>
-      <p>Track expenses • Control spending • Live happily</p>
-    </div>
-  </div>
-  <!-- Expense Tracker Header END -->
-
-</div>
+  <div id="home" class="screen active"></div>
 
   <!-- ADD -->
   <div id="add" class="screen">
@@ -1397,26 +1381,8 @@ function renderHome(){
 
   home.innerHTML = `
     <div class="card">
-      <div style="text-align:center;margin-bottom:10px;">
-  <div class="login-header">
-    <div class="coin-icon">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 6v4l3 2"/>
-        <circle cx="12" cy="12" r="7"/>
-      </svg>
-    </div>
-    <div>
-      <span class="title-expense">Expense</span>
-      <span class="title-tracker">Tracker</span>
-    </div>
-  </div>
-
-  <div class="login-tagline">
-    Hello, ${displayName}! 😊💰<br>
-    Track expenses • Control spending • Live happily
-  </div>
-</div>
-
+      <div class="home-title">Expense Tracker</div>
+      <div class="home-quote">Hello, ${displayName}! 😊💰 Track expenses • Control spending • Live happily</div>
       ${recentHTML}
       <div class="total-caption">Summary-Gist of Recent Total</div>
       <div class="total-box">${currency.value}${totalRecent}</div>
