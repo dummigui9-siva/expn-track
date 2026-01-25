@@ -1381,8 +1381,26 @@ function renderHome(){
 
   home.innerHTML = `
     <div class="card">
-      <div class="home-title">Expense Tracker</div>
-      <div class="home-quote">Hello, ${displayName}! 😊💰 Track expenses • Control spending • Live happily</div>
+      <div style="text-align:center;margin-bottom:10px;">
+  <div class="login-header">
+    <div class="coin-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 6v4l3 2"/>
+        <circle cx="12" cy="12" r="7"/>
+      </svg>
+    </div>
+    <div>
+      <span class="title-expense">Expense</span>
+      <span class="title-tracker">Tracker</span>
+    </div>
+  </div>
+
+  <div class="login-tagline">
+    Hello, ${displayName}! 😊💰<br>
+    Track expenses • Control spending • Live happily
+  </div>
+</div>
+
       ${recentHTML}
       <div class="total-caption">Summary-Gist of Recent Total</div>
       <div class="total-box">${currency.value}${totalRecent}</div>
