@@ -45,50 +45,145 @@ window.addEventListener('storage', (event) => {
 /* ===== LOGIN TITLE & ICON ===== */
 .login-header{
   display:flex;
-  align-items:center;
+  align-items:center;        /* 🔑 perfect vertical alignment */
   justify-content:center;
-  gap:12px;
-  margin-bottom:6px;
+  gap:14px;                  /* clean spacing */
+  margin-bottom:12px;
 }
 
-.coin-icon{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background: radial-gradient(circle at 30% 30%, #ffd966, #c9a227);
+
+
+/* ===== DIGITAL INR LOGO ===== */
+.inr-digital-coin{
+  position: relative;
+
+  width:68px;
+  height:30px;      /* 👈 same as width = perfect circle */
+  border-radius:999;
+  background:
+  linear-gradient(90deg,
+    #ff9933 0%,
+    #ffefc2 50%,
+    #138808 100%
+  );
+
   display:flex;
   align-items:center;
-  justify-content:center;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,.5),
-              inset 0 -3px 6px rgba(0,0,0,.35),
-              0 6px 14px rgba(0,0,0,.35);
+  justify-content:space-between;
+  padding:0 8px;
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,.5),
+    inset 0 -3px 6px rgba(0,0,0,.35),
+    0 10px 20px rgba(0,0,0,.35);
+
+    /* 🟢 FLAG MOTION */
+  background-size: 200% 200%;
+  animation: flagWave 9s ease-in-out infinite;
+  flex-shrink: 0;
+
 }
 
-.coin-icon svg{
-  width:22px;
-  height:22px;
-  stroke:#5a3b00;
-  stroke-width:2.2;
-  fill:none;
+
+.inr-digital-coin::before{
+  content:"";
+  position:absolute;
+  inset:3px;                 /* thickness of inner ring */
+  border-radius:999px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255,153,51,.35),     /* saffron */
+    rgba(255,255,255,.35),   /* white */
+    rgba(19,136,8,.35)       /* green */
+  );
+
+  filter: blur(0.4px);
+  z-index:0;
 }
+
+.inr-digital-coin > *{
+  position: relative;
+  z-index: 1;
+}
+
+
+/* INR symbols */
+.inr-symbol{
+  font-size:13px;
+  font-weight:700;
+  color:#4a3a1a;
+  opacity:0.75;
+}
+
+/* Digital bars */
+.bars{
+  display:flex;
+  gap:3px;
+  align-items:flex-end;
+}
+
+.bars span{
+  width:2px;
+  height:6px;
+  background:#5a3b00;
+  border-radius:2px;
+  animation: inrPulse 1.2s ease-in-out infinite;
+  opacity:0.85;
+}
+
+/* Staggered animation */
+.bars span:nth-child(1){animation-delay:0s}
+.bars span:nth-child(2){animation-delay:.15s}
+.bars span:nth-child(3){animation-delay:.3s}
+.bars span:nth-child(4){animation-delay:.45s}
+
+@keyframes inrPulse{
+  0%   {height:8px}
+  50%  {height:12px}
+  100% {height:8px}
+}
+
+@keyframes flagWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
 
 .title-expense{
-  font-size:28px;
+  line-height:30px;
+
+  font-size:30px;
   font-weight:800;
-  color:#2a7f73; /* Green-leaning dark mint */
+  color:#2a7f73;
+  letter-spacing:-0.3px;
 }
 
+
 .title-tracker{
-  font-size:28px;
+  line-height:30px;
+
+  font-size:30px;
   font-weight:800;
-  color:#0b2545; /* navy */
+  color:#0b2545;
+  letter-spacing:-0.3px;
 }
+
 
 .login-tagline{
   font-size:12px;
-  opacity:.75;
-  margin-top:4px;
+  opacity:0.7;
+  margin-top:6px;
+  text-align:left;
 }
+
 
   
 /* ================= THEME ================= */
@@ -473,13 +568,15 @@ button:hover{transform:translateY(-2px)}
  
 <!-- App Logo -->
 <div class="login-header">
-  <div class="coin-icon">
-    <!-- circular arrow / money control -->
-    <svg viewBox="0 0 24 24">
-      <path d="M3 12a9 9 0 1 0 3-6"/>
-      <path d="M3 3v6h6"/>
-    </svg>
+  <div class="inr-digital-coin">
+  <span class="inr-symbol left">₹</span>
+
+  <div class="bars">
+    <span></span><span></span><span></span><span></span>
   </div>
+
+  <span class="inr-symbol right">₹</span>
+</div>
 
   <div>
     <div>
